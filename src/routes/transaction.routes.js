@@ -9,7 +9,7 @@ router.post(
     '/', 
     validate(createTransactionSchema),
     authMiddleware,
-    TransactionController.createTransaction
+    TransactionController.create
 );
 
 module.exports = router;
