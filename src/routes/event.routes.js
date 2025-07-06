@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const EventController = require('../controllers/event.controller');
-const { authMiddleware, validate, adminOnly } = require('../middlewares');
+const { authMiddleware, validate, adminMiddleware } = require('../middlewares');
 const {  
   createEventSchema, 
   updateEventSchema 
@@ -10,7 +10,7 @@ const {
 router.post(
   '/',
   authMiddleware,
-  adminOnly,
+  adminMiddleware,
   validate(createEventSchema),
   EventController.create
 );
@@ -18,7 +18,7 @@ router.post(
 router.put(
   '/:id',
   authMiddleware,
-  adminOnly,
+  adminMiddleware,
   validate(updateEventSchema),
   EventController.update
 );
