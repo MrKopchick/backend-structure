@@ -10,7 +10,7 @@ router.post(
     validate(createTransactionSchema),
     authMiddleware,
     adminMiddleware,
-    TransactionController.createTransaction
+    TransactionController.create
 );
 
 module.exports = router;
