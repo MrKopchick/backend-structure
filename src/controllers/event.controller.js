@@ -5,14 +5,14 @@ class EventController {
     async create(req, res, next){
         try{
             const newEvent = await EventService.create(req.body);
-            return res.status(201).json(newEvent);
+            return res.status(200).json(newEvent);
         }catch(err){
             next(err);
         }
     }
     async update(req, res, next){
         try{
-            const updatedEvent = await EventService.update(req.id, req.body);
+            const updatedEvent = await EventService.update(req.params.id, req.body);
             return res.json(updatedEvent)
         }catch(err){
             next(err);

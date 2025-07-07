@@ -1,4 +1,4 @@
-const { db } = require('../config/database');
+const { db } = require('../config/db.config');
 const ApiError = require('../utils/apiError');
 
 class EventService {
@@ -101,6 +101,7 @@ class EventService {
 
       return event;
     } catch (err) {
+      console.log(err)
       throw new ApiError(500, 'Failed to update event');
     }
   }

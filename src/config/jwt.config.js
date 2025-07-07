@@ -1,16 +1,15 @@
 var joi = require('joi');
-const { jwtSecretShema } = require('./env.shema')
+const { envSchema } = require('./env.schema');
 
-const { error, value } = jwtSecretShema.validate(orocess.env);
+const { error, value } = envSchema.validate(process.env);
 
-if(error){
-    throw new Error(`jwt config error : ${error.message } `);
+if(error) {
+  throw new Error(`Config validation error: ${error.message}`);
 }
 
-
-module.exports = {
+const config = {
     secret: value.JWT_SECRET,
-    algorithm: 'HS256', // default
+    algorithm: 'HS256',
     expiresIn: '1h',
     
     audience: {
@@ -22,23 +21,26 @@ module.exports = {
         ignoreExpiration: false,
         allowInvalid: false
     },
-    
+}
+
+module.exports = {
+    config,
     roleMiddleware: (requiredRole) => (req, res, next) => {
-        const token = req.headers.authorization?.replace('Bearer ', '');
-        
-        if (!token) return res.status(401).json({ error: 'Token required' });
-        
-        try {
-            const decoded = jwt.verify(token, this.secret);
-            if (decoded.type !== requiredRole) {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) return res.status(401).json({ error: 'Token required' });
+    
+    try {
+        const decoded = jwt.verify(token, config.secret);
+        if (decoded.type !== requiredRole) {
             return res.status(403).json({ error: 'Insufficient permissions' });
-            }
-            req.user = decoded;
-            next();
-        } catch (err) {
-            res.status(401).json({ error: 'Invalid token' });
         }
+        req.user = decoded;
+        next();
+    } catch (err) {
+        res.status(401).json({ error: 'Invalid token' });
     }
+}
 }
 
 /// <summary>

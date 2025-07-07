@@ -1,5 +1,5 @@
 exports.seed = async (knex) => {
-  // Clean up existing data
+  await knex('transaction').del();
   await knex('bet').del();
   await knex('event').del();
   await knex('odds').del();
