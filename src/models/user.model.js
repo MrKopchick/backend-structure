@@ -1,23 +1,23 @@
 const joi = require('joi');
 
 const userSchema = {
-    createUser: joi.object({
+    createUserSchema: joi.object({
         id: joi.string().uuid(),
         type: joi.string().required(),
         email: joi.string().email().required(),
-        phone: joi.string().pattern(/^\+?3?8?(0\d{9})$/).required(),
+        phone: joi.string().pattern(/^\+?3?8?(0\d{9})$/),
         name: joi.string().required(),
         city: joi.string(), 
     }),
-    updateUser: joi.object({
+    updateUserSchema: joi.object({
         email: joi.string().email(),
         phone: joi.string().pattern(/^\+?3?8?(0\d{9})$/),
         name: joi.string(),
         city: joi.string(),
-    }).min(1),
+    }).min(1).unknown(false),
 
-    getUser: Joi.object({
-        id: Joi.string().uuid().required()
+    getUserSchema: joi.object({
+        id: joi.string().uuid().required()
     })
 }
 

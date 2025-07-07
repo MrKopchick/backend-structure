@@ -3,11 +3,11 @@ const router = express.Router()
 const BetController = require('../controllers/bet.controller');
 const { authMiddleware, validate } = require('../middlewares');
 
-const { createBetSchema } = require('../models/event.model');
+const { createBet } = require('../models/bet.model');
 
 router.post(
     '/',
-    validate(createBetSchema),  
+    validate(createBet),  
     authMiddleware, 
     BetController.create
 );

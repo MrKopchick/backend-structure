@@ -5,7 +5,7 @@ class UserController {
   async create(req, res, next) {
     try {
       const newUser = await UserService.createUser(req.body);
-      res.status(201).json(newUser);
+      res.status(200).json(newUser);
     } catch (err) {
       next(err);
     }
@@ -13,11 +13,24 @@ class UserController {
 
   async update(req, res, next) {
     try {
-      const updatedUser = await UserService.updateUser(req.user.id, req.body);
+      if (req.user.id !== req.params.id) {
+        throw new ApiError(401, 'UserId mismatch');
+      }
+      const updatedUser = await UserService.updateUser(req.params.id, req.body);
       res.json(updatedUser);
     } catch (err) {
       next(err);
     }
+  }
+
+  
+  async get(req, res, next) {
+      try {
+        const user = await UserService.getUserById(req.params.id);
+        res.status(200).json(user);
+      } catch (err) {
+        next(err);
+      }
   }
 }
 

@@ -1,7 +1,7 @@
 const joi = require('joi');
 
 const TransactionSchema = {
-    createTransaction: joi.object({
+    createTransactionSchema: joi.object({
         id: joi.string().uuid(),
         userId: joi.string().uuid().required(),
         cardNumber: joi.string().required(),
