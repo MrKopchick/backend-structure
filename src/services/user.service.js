@@ -1,6 +1,6 @@
 const { db } = require('../config/db.config');
-const jwt = requrie('jsonwebtoken');
-const { secret, expiresIn } = require('../config/jwt.config');
+const jwt = require('jsonwebtoken');
+const { config } = require('../config/jwt.config');
 const ApiError = require('../utils/apiError');
 
 class UserService {
@@ -17,8 +17,8 @@ class UserService {
 
             const token = jwt.sign(
                 { id: newUser.id, type: newUser.type },
-                secret,
-                expiresIn
+                config.secret,
+                { expiresIn: config.expiresIn } 
             );
 
             return {
@@ -30,12 +30,13 @@ class UserService {
             if (err.code === '23505') {
                 throw new ApiError(400, err.detail);
             }
+            console.log(err);
             throw new ApiError(500, 'Internal Server Error');
         }
     }
 
-    async updatedUser(userId, updateData){
-        try{
+    async updateUser(userId, updateData){
+        try {
             const [updatedUser] = await db('user')
                 .where('id', userId)
                 .update(updateData)
@@ -46,30 +47,35 @@ class UserService {
             }
 
             return updatedUser;
-
-        }catch{
+        } catch (err) {
             if (err.code === '23505') {
-                throw new ApiError(400, err.detail);
-            }
+              throw new ApiError(400, err.detail);
+        }
+            console.log(err);
             throw new ApiError(500, 'Internal Server Error');
         }
     }
+
 
     async getUserById(userId) {
         try {
-            const user = await db('user')
-            .where('id', userId)
-            .first();
+            const user = await db('user').where('id', userId).first();
 
             if (!user) {
-                throw new ApiError(404, 'User not found');
+            throw new ApiError(404, 'User not found');
             }
-            
+
             return user;
         } catch (err) {
+            if (err instanceof ApiError) {
+            throw err;
+            }
+            console.log(err);
             throw new ApiError(500, 'Internal Server Error');
         }
     }
+
+
 }
 
-module.exports = UserService;
+module.exports = new UserService();

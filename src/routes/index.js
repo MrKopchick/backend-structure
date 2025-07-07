@@ -11,7 +11,7 @@ router.use('/users', userRoutes);
 router.use('/bets', betRoutes);
 router.use('/events', eventRoutes);
 router.use('/transactions', transactionRoutes);
-router.get('/', statsRoutes);
+router.use('/stats', statsRoutes);
 
 router.get("/health", (req, res) => {
   res.send("Hello World!");

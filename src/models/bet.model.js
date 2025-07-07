@@ -8,8 +8,8 @@ const betSchema = {
         prediction: joi.string().valid('w1', 'w2', 'x').required(),
     }).required(),
 
-    getBet: Joi.object({
-        id: Joi.string().uuid().required()
+    getBet: joi.object({
+        id: joi.string().uuid().required()
     })
 }
 

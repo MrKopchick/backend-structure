@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/user.controller');
 const { authMiddleware, validate } = require('../middlewares');
-
-const { getUserSchema, createUserSchema, updateUserShema } = require('../models/user.model');
+const { createUserSchema, updateUserSchema, getUserSchema } = require('../models/user.model');
 
 router.post('/', validate(createUserSchema), UserController.create);
-router.put('/:id', validate(updateUserShema), authMiddleware, UserController.update);
+router.put('/:id', validate(updateUserSchema), authMiddleware, UserController.update);
+router.get('/:id', validate(getUserSchema, 'params'), UserController.get);
 
 module.exports = router;

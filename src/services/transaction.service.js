@@ -1,15 +1,16 @@
-const { db } = require('../config/database');
+const { db } = require('../config/db.config');
 const ApiError = require('../utils/apiError');
 
 class TransactionService{
     async create(transactionData){
-        try{ 
-            const user = await db('user').where('id', transactionData.userId).first();
+        
+        const user = await db('user').where('id', transactionData.userId).first();
 
-            if(!user){
-                throw new ApiError(400, 'User does not exist');
-            }
-
+        if(!user){
+            throw new ApiError(400, 'User does not exist');
+        }
+        
+        try{
             const insertData = {
                 user_id: transactionData.userId,
                 card_number: transactionData.cardNumber,
@@ -38,3 +39,5 @@ class TransactionService{
         }
     }
 }
+
+module.exports = new TransactionService();
