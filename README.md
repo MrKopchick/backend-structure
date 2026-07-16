@@ -1,8 +1,5 @@
 # Backend Structure Homework
 
-### :bangbang: Attention  :bangbang:
-**The code was written by the professionals for educational purposes. Don't repeat at home.**
-
 ### Prerequisites:
 1. `npm install` - install packages
 2.  Create `.env` file, copy values from `.example.env`
